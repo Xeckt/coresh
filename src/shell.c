@@ -7,7 +7,6 @@ void start_coresh() {
     printf("coresh> ");
 }
 
-
 /*
  * This function is probably inefficient, but frankly not too bothered about it.
  * I probably should realloc the buffer if it's smaller than the original bufsize
