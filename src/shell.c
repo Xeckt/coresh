@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "global.h"
 
 void start_coresh() {
     fflush(stdout);
@@ -27,11 +26,10 @@ char *read_line(void) {
     for (int c; (c = getchar()) != EOF && c != '\n';) {
         buffer[position++] = c;
         if (position >= bufsize - 1) {
-            int buffer_size = bufsize;
-            buffer_size += bufsize;
-
-            buffer = realloc(buffer, buffer_size);
-            if (!buffer) {
+            char *new_buffer = realloc(buffer, position + 1);
+            if (!new_buffer) {
+                free(new_buffer);
+                free(buffer);
                 fprintf(stderr, "failed to re-allocate memory for read_line\n");
                 exit(EXIT_FAILURE);
             }
@@ -40,10 +38,8 @@ char *read_line(void) {
 
     buffer[position] = '\0';
 
-    if (trace_mode) {
-        for (size_t i = 0; buffer[i] != '\0'; i++) {
-            printf("Char %zu: '%c' (ASCII %d)\n", i, buffer[i], buffer[i]);
-        }
+    for (size_t i = 0; buffer[i] != '\0'; i++) {
+        printf("Char %zu: '%c' (ASCII %d)\n", i, buffer[i], buffer[i]);
     }
 
     return buffer;
