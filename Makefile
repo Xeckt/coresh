@@ -1,17 +1,21 @@
 CC = gcc
 SRC_C = $(wildcard ./src/*.c)
-SRC_H = $(wildcard ./src/*.h)
 OUT = ./out
 BIN = coresh
+TARGET = $(OUT)/$(BIN)
 
-build:
-	mkdir -p $(OUT) && $(CC) $(SRC_C) $(SRC_H) -o $(OUT)/$(BIN)
+all: $(TARGET)
 
-run:
-	 $(OUT)/$(BIN)
+$(TARGET): $(SRC_C)
+	mkdir -p $(OUT)
+	$(CC) $(SRC_C) -o $(TARGET)
 
-debug:
-	valgrind ./$(OUT)
+run: $(TARGET)
+	@echo "Running..."
+	@$(TARGET)
+
+debug: $(TARGET)
+	valgrind $(TARGET)
 
 clean:
-	rm -f $(OUT)
+	rm -f $(TARGET)
