@@ -25,12 +25,9 @@ char *read_line(void) {
 
     size_t position = 0;
 
-    printf("coresh> ");
-
     for (int c; (c = getchar()) != EOF && c != '\n';) {
         buffer[position++] = c;
         if (position >= bufsize - 1) {
-            printf("re-allocating buffer too small");
             int buffer_size = bufsize;
             buffer_size += bufsize;
 
